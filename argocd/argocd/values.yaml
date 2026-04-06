@@ -7,18 +7,16 @@ redis-ha:
 redis:
   enabled: false
 
+dex:
+  enabled: false
+
+redisSecretInit:
+  enabled: false
+
 server:
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 200m
-      memory: 128Mi
+  replicas: 0
 
 repoServer:
-  extraArgs:
-    - --enable-helm
   resources:
     requests:
       cpu: 50m
@@ -48,5 +46,5 @@ applicationSet:
 
 configs:
   params:
-    server.insecure: true  # TLS terminated at Traefik
-    redis.server: ""       # Disable Redis connection attempts
+    redis.server: ""                      # Disable Redis connection attempts
+    kustomize.buildOptions: --enable-helm  # Allow Kustomize Helm chart inflation

@@ -122,7 +122,7 @@ kubectl create secret generic configarr-api-keys -n media \
 ### 3. Bootstrap Argo CD
 
 ```bash
-kustomize build --enable-helm argocd/argocd | kubectl apply -n argocd -f -
+kustomize build --enable-helm argocd/argocd | kubectl apply --server-side -n argocd -f -
 ```
 
 ### 4. Deploy the ApplicationSet

@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: <this-git-repo-url>
+        repoURL: https://github.com/BlurryToast/media-construct.git
         revision: HEAD
         directories:
           - path: argocd/*
@@ -16,7 +16,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: <this-git-repo-url>
+        repoURL: https://github.com/BlurryToast/media-construct.git
         targetRevision: HEAD
         path: "{{path}}"
       destination:
