@@ -4,7 +4,7 @@ metadata:
   name: configarr
   namespace: media
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   schedule: "0 */6 * * *"
   jobTemplate:
@@ -27,13 +27,11 @@ spec:
                     secretKeyRef:
                       name: configarr-api-keys
                       key: SONARR_API_KEY
-                      optional: true
                 - name: RADARR_API_KEY
                   valueFrom:
                     secretKeyRef:
                       name: configarr-api-keys
                       key: RADARR_API_KEY
-                      optional: true
           restartPolicy: OnFailure
           volumes:
             - name: config
