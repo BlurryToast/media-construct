@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: prowlarr-ingress
   namespace: media
+  annotations:
+    argocd.argoproj.io/health-check: "skip"
 spec:
   ingressClassName: traefik
   rules:
