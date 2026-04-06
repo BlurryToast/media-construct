@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homarr-ingress
+  namespace: media
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: zion.home
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homarr-svc
+                port:
+                  name: http

@@ -1,0 +1,52 @@
+global:
+  domain: argocd.zion.home
+
+redis-ha:
+  enabled: false
+
+redis:
+  enabled: false
+
+server:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+repoServer:
+  extraArgs:
+    - --enable-helm
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+controller:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+applicationSet:
+  enabled: true
+  resources:
+    requests:
+      cpu: 25m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 64Mi
+
+configs:
+  params:
+    server.insecure: true  # TLS terminated at Traefik
+    redis.server: ""       # Disable Redis connection attempts

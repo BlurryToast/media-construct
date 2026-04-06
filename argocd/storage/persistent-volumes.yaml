@@ -1,0 +1,373 @@
+# Persistent Volumes and Claims for the media stack
+# PVs are cluster-scoped; PVCs are in the 'media' namespace
+# All use hostPath (single-node cluster) with Retain reclaim policy
+# Sync wave 0 ensures storage is ready before workloads deploy
+---
+# ============================================================
+# Shared Volumes (ReadWriteMany)
+# ============================================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/media
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: ""
+  volumeName: media-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: torrents-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/torrents
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: torrents-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: ""
+  volumeName: torrents-pv
+---
+# ============================================================
+# Per-Service Config Volumes (ReadWriteOnce)
+# ============================================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gluetun-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/gluetun
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gluetun-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: gluetun-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bittorrent-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/bittorrent
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bittorrent-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: bittorrent-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarr-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/sonarr
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: sonarr-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: radarr-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/radarr
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: radarr-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: prowlarr-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/prowlarr
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prowlarr-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: prowlarr-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/jellyfin
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: jellyfin-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyfin-cache-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/jellyfin_cache
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-cache-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: jellyfin-cache-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jellyseerr-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/jellyseerr
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyseerr-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: jellyseerr-config-pv
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: homarr-config-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/appdata/homarr
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: homarr-config-pvc
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  volumeName: homarr-config-pv

@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: configarr
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  schedule: "0 */6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: configarr
+              image: configarr/configarr:latest
+              volumeMounts:
+                - name: config
+                  mountPath: /app/config
+              env:
+                - name: SONARR_URL
+                  value: "http://sonarr-svc.media.svc.cluster.local:8989"
+                - name: RADARR_URL
+                  value: "http://radarr-svc.media.svc.cluster.local:7878"
+                - name: SONARR_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: configarr-api-keys
+                      key: SONARR_API_KEY
+                - name: RADARR_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: configarr-api-keys
+                      key: RADARR_API_KEY
+          restartPolicy: OnFailure
+          volumes:
+            - name: config
+              configMap:
+                name: configarr-config

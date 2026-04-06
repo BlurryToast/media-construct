@@ -1,0 +1,48 @@
+image:
+  repository: jellyfin/jellyfin
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+
+extraEnvVars:
+  - name: JELLYFIN_PublishedServerUrl
+    value: "https://jellyfin.zion.home"
+  - name: TZ
+    value: "Etc/UTC"
+
+persistence:
+  config:
+    enabled: true
+    existingClaim: jellyfin-config-pvc
+  cache:
+    enabled: true
+    existingClaim: jellyfin-cache-pvc
+
+extraVolumes:
+  - name: media
+    persistentVolumeClaim:
+      claimName: media-pvc
+
+extraVolumeMounts:
+  - name: media
+    mountPath: /media
+    readOnly: true
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: jellyfin.zion.home
+      paths:
+        - path: /
+          pathType: Prefix
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http

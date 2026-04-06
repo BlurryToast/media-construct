@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configarr-config
+  namespace: media
+data:
+  config.yml: |
+    # Configarr configuration
+    # See https://configarr.de/docs/profiles/ for TRaSH-Guides profile configuration
+    #
+    # Example:
+    # trashGuideUrl: https://trash-guides.info
+    # sonarr:
+    #   - base_url: http://sonarr-svc.media.svc.cluster.local:8989
+    #     api_key: !secret SONARR_API_KEY
+    #     quality_definition: series
+    #     include:
+    #       - trash_ids:
+    #           - <profile-trash-id>
+    # radarr:
+    #   - base_url: http://radarr-svc.media.svc.cluster.local:7878
+    #     api_key: !secret RADARR_API_KEY
+    #     quality_definition: movie
+    #     include:
+    #       - trash_ids:
+    #           - <profile-trash-id>

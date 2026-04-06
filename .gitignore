@@ -1,0 +1,61 @@
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.iml
+*.code-workspace
+
+# Secrets — never commit these
+*.key
+*.pem
+*.crt
+*.csr
+*-secret.yaml
+*-secrets.yaml
+!**/templates/*-secret.yaml
+
+
+# Helm dependency build output
+*.tgz
+Chart.lock
+**/charts
+
+# Kustomize
+kustomize-build/
+
+# Terraform (if used for infra)
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+kubeconfig.*
+
+# ArgoCD local credentials
+argocd-initial-admin-secret.yaml
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Python (if any scripts)
+__pycache__/
+*.pyc
+.venv/
+
+# Node (if any tooling)
+node_modules/

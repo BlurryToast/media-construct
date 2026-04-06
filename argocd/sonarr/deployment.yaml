@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+        - name: sonarr
+          image: lscr.io/linuxserver/sonarr:latest
+          ports:
+            - containerPort: 8989
+          envFrom:
+            - configMapRef:
+                name: common-env
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: media
+              mountPath: /media
+            - name: torrents
+              mountPath: /downloads
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8989
+            initialDelaySeconds: 60
+            periodSeconds: 30
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: sonarr-config-pvc
+        - name: media
+          persistentVolumeClaim:
+            claimName: media-pvc
+        - name: torrents
+          persistentVolumeClaim:
+            claimName: torrents-pvc

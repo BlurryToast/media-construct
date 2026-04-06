@@ -1,0 +1,32 @@
+deployment:
+  replicas: 1
+
+ingressClass:
+  enabled: true
+  isDefaultClass: true
+
+providers:
+  kubernetesIngress:
+    enabled: true
+  kubernetesCRD:
+    enabled: true
+
+ports:
+  web:
+    port: 8000
+    exposedPort: 80
+    protocol: TCP
+  websecure:
+    port: 8443
+    exposedPort: 443
+    protocol: TCP
+
+service:
+  type: LoadBalancer
+
+logs:
+  general:
+    level: DEBUG
+
+healthcheck:
+  enabled: true
