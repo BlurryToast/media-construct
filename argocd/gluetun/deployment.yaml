@@ -83,17 +83,15 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /bin/sh
-                - -c
-                - wget -qO- http://127.0.0.1:9999/
+                - /gluetun-entrypoint
+                - healthcheck
             initialDelaySeconds: 30
             periodSeconds: 10
           livenessProbe:
             exec:
               command:
-                - /bin/sh
-                - -c
-                - wget -qO- http://127.0.0.1:9999/
+                - /gluetun-entrypoint
+                - healthcheck
             initialDelaySeconds: 90
             periodSeconds: 30
             failureThreshold: 5
