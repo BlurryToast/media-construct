@@ -66,14 +66,15 @@ spec:
             httpGet:
               path: /
               port: 9999
-            initialDelaySeconds: 15
+            initialDelaySeconds: 30
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /
               port: 9999
-            initialDelaySeconds: 30
+            initialDelaySeconds: 90
             periodSeconds: 30
+            failureThreshold: 5
       volumes:
         - name: tun-device
           hostPath:
