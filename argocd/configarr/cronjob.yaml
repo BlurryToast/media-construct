@@ -27,11 +27,13 @@ spec:
                     secretKeyRef:
                       name: configarr-api-keys
                       key: SONARR_API_KEY
+                      optional: true
                 - name: RADARR_API_KEY
                   valueFrom:
                     secretKeyRef:
                       name: configarr-api-keys
                       key: RADARR_API_KEY
+                      optional: true
           restartPolicy: OnFailure
           volumes:
             - name: config
