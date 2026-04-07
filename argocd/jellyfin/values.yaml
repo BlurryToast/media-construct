@@ -7,7 +7,7 @@ securityContext:
 
 extraEnvVars:
   - name: JELLYFIN_PublishedServerUrl
-    value: "https://jellyfin.zion.home"
+    value: "https://jellyfin.media.home"
   - name: TZ
     value: "Etc/UTC"
 
@@ -33,7 +33,7 @@ ingress:
   enabled: true
   className: traefik
   hosts:
-    - host: jellyfin.zion.home
+    - host: jellyfin.media.home
       paths:
         - path: /
           pathType: Prefix

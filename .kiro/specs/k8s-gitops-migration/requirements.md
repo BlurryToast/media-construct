@@ -18,7 +18,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 - **Argo_CD**: The GitOps continuous delivery tool that synchronizes Kubernetes manifests from a Git repository to the Cluster, deployed via Kustomize with Helm chart inflation using the official Argo CD Helm chart
 - **ApplicationSet**: An Argo CD custom resource that uses generators to automatically create and manage multiple Application resources from a single template definition
 - **Git_Directory_Generator**: An ApplicationSet generator that discovers directories in a Git repository and creates an Argo CD Application for each discovered directory
-- **Traefik_Ingress**: The Traefik-based Kubernetes Ingress controller deployed via Kustomize with Helm chart inflation using the official Traefik Helm chart, routing external HTTP traffic to services via Host rules under the `zion.home` domain
+- **Traefik_Ingress**: The Traefik-based Kubernetes Ingress controller deployed via Kustomize with Helm chart inflation using the official Traefik Helm chart, routing external HTTP traffic to services via Host rules under the `media.home` domain
 - **Gluetun_Proxy**: The Gluetun VPN gateway deployed as a standalone Deployment, providing WireGuard connectivity to ProtonVPN and exposing SOCKS5 proxy (port 8388) and HTTP proxy (port 8888) endpoints for VPN-dependent services to route traffic through
 - **SOCKS5_Proxy**: The SOCKS5 proxy endpoint exposed by Gluetun on port 8388, used by qBittorrent to route peer connections through the VPN tunnel
 - **HTTP_Proxy**: The HTTP proxy endpoint exposed by Gluetun on port 8888, used by Prowlarr to route indexer requests through the VPN tunnel
@@ -98,15 +98,15 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 ### Requirement 5: Traefik Ingress Controller (Kustomize with Helm Chart Inflation)
 
-**User Story:** As an operator, I want Traefik deployed as the Kubernetes Ingress controller via Kustomize with Helm chart inflation using the official Traefik Helm chart into the media namespace, so that all services are accessible via `*.zion.home` Host-based routing consistent with the existing setup.
+**User Story:** As an operator, I want Traefik deployed as the Kubernetes Ingress controller via Kustomize with Helm chart inflation using the official Traefik Helm chart into the media namespace, so that all services are accessible via `*.media.home` Host-based routing consistent with the existing setup.
 
 #### Acceptance Criteria
 
 1. THE Traefik_Ingress SHALL be deployed via Kustomize with Helm chart inflation using the official Traefik Helm chart into the Media_Namespace
 2. THE Traefik_Ingress Kustomization SHALL configure the Helm chart to listen on port 80
-3. THE Traefik_Ingress SHALL route traffic based on Host rules using the `zion.home` domain and its subdomains
+3. THE Traefik_Ingress SHALL route traffic based on Host rules using the `media.home` domain and its subdomains
 4. THE Traefik_Ingress Kustomization SHALL configure the Helm chart to disable the Docker provider and enable the Kubernetes Ingress provider
-5. WHEN a new Ingress resource is created with a `*.zion.home` Host rule, THE Traefik_Ingress SHALL route traffic to the corresponding backend service
+5. WHEN a new Ingress resource is created with a `*.media.home` Host rule, THE Traefik_Ingress SHALL route traffic to the corresponding backend service
 6. THE Traefik_Ingress deployment SHALL include a health check mechanism to verify the controller is operational
 
 ### Requirement 6: Gluetun VPN Proxy Gateway
@@ -135,7 +135,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 1. THE qBittorrent deployment SHALL be an independent Deployment with its own Service and Ingress, NOT a container within a shared pod
 2. THE qBittorrent deployment SHALL be configured at the application level to use the SOCKS5_Proxy at `gluetun-svc.media.svc.cluster.local:8388` for peer connections
-3. THE qBittorrent container SHALL expose its WebUI on port 8088, accessible via `bittorrent.zion.home` through the Traefik_Ingress
+3. THE qBittorrent container SHALL expose its WebUI on port 8088, accessible via `bittorrent.media.home` through the Traefik_Ingress
 4. THE qBittorrent manifests SHALL be stored in `k8s/qbittorrent/` with its own kustomization.yaml, deployment.yaml, service.yaml, and ingress.yaml
 5. THE qBittorrent deployment SHALL be deployed into the Media_Namespace
 
@@ -147,7 +147,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 1. THE Prowlarr deployment SHALL be an independent Deployment with its own Service and Ingress, NOT a container within a shared pod
 2. THE Prowlarr deployment SHALL be configured at the application level to use the HTTP_Proxy at `gluetun-svc.media.svc.cluster.local:8888` for indexer requests
-3. THE Prowlarr container SHALL be accessible via `prowlarr.zion.home` on port 9696 through the Traefik_Ingress
+3. THE Prowlarr container SHALL be accessible via `prowlarr.media.home` on port 9696 through the Traefik_Ingress
 4. THE Prowlarr manifests SHALL be stored in `k8s/prowlarr/` with its own kustomization.yaml, deployment.yaml, service.yaml, and ingress.yaml
 5. THE Prowlarr deployment SHALL be deployed into the Media_Namespace
 
@@ -171,7 +171,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 1. THE Sonarr deployment SHALL be an independent Deployment with its own Service and Ingress
 2. THE Sonarr deployment SHALL NOT require VPN proxy configuration; it communicates with qBittorrent via `qbittorrent-svc.media.svc.cluster.local:8088` and Prowlarr via `prowlarr-svc.media.svc.cluster.local:9696`
-3. THE Sonarr container SHALL be accessible via `sonarr.zion.home` on port 8989 through the Traefik_Ingress
+3. THE Sonarr container SHALL be accessible via `sonarr.media.home` on port 8989 through the Traefik_Ingress
 4. THE Sonarr manifests SHALL be stored in `k8s/sonarr/` with its own kustomization.yaml, deployment.yaml, service.yaml, and ingress.yaml
 5. THE Sonarr deployment SHALL be deployed into the Media_Namespace
 
@@ -183,7 +183,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 1. THE Radarr deployment SHALL be an independent Deployment with its own Service and Ingress
 2. THE Radarr deployment SHALL NOT require VPN proxy configuration; it communicates with qBittorrent via `qbittorrent-svc.media.svc.cluster.local:8088` and Prowlarr via `prowlarr-svc.media.svc.cluster.local:9696`
-3. THE Radarr container SHALL be accessible via `radarr.zion.home` on port 7878 through the Traefik_Ingress
+3. THE Radarr container SHALL be accessible via `radarr.media.home` on port 7878 through the Traefik_Ingress
 4. THE Radarr manifests SHALL be stored in `k8s/radarr/` with its own kustomization.yaml, deployment.yaml, service.yaml, and ingress.yaml
 5. THE Radarr deployment SHALL be deployed into the Media_Namespace
 
@@ -212,8 +212,8 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 3. THE Jellyfin values file SHALL mount the shared media volume at `/media` using a Host_Path_Volume backed by `/data/media`
 4. THE Jellyfin values file SHALL mount a persistent config volume backed by `/data/appdata/jellyfin`
 5. THE Jellyfin values file SHALL mount a persistent cache volume backed by `/data/appdata/jellyfin_cache`
-6. THE Jellyfin values file SHALL set the `JELLYFIN_PublishedServerUrl` environment variable to `https://jellyfin.zion.home`
-7. THE Jellyfin deployment SHALL be accessible via `jellyfin.zion.home` through the Traefik_Ingress with the Traefik IngressClass
+6. THE Jellyfin values file SHALL set the `JELLYFIN_PublishedServerUrl` environment variable to `https://jellyfin.media.home`
+7. THE Jellyfin deployment SHALL be accessible via `jellyfin.media.home` through the Traefik_Ingress with the Traefik IngressClass
 8. THE Jellyfin deployment SHALL include a health check at the `/health` endpoint
 9. THE Jellyfin deployment SHALL be deployed into the Media_Namespace
 
@@ -225,7 +225,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 
 1. THE Jellyseerr deployment SHALL use the `fallenbagel/jellyseerr:latest` container image
 2. THE Jellyseerr deployment SHALL mount a persistent config volume backed by `/data/appdata/jellyseerr`
-3. THE Jellyseerr deployment SHALL be accessible via `jellyseerr.zion.home` on port 5055 through the Traefik_Ingress
+3. THE Jellyseerr deployment SHALL be accessible via `jellyseerr.media.home` on port 5055 through the Traefik_Ingress
 4. WHEN the Jellyfin deployment is not healthy, THE Jellyseerr deployment SHALL not become ready
 5. THE Jellyseerr manifests SHALL be managed via Kustomize bases and overlays
 6. THE Jellyseerr deployment SHALL be deployed into the Media_Namespace
@@ -239,7 +239,7 @@ Argo CD sync waves ensure proper deployment ordering: storage and common configu
 1. THE Homarr deployment SHALL use the `ghcr.io/homarr-labs/homarr:latest` container image
 2. THE Homarr deployment SHALL read the encryption key from a Kubernetes_Secret and inject it as the `SECRET_ENCRYPTION_KEY` environment variable
 3. THE Homarr deployment SHALL mount a persistent appdata volume backed by `/data/appdata/homarr`
-4. THE Homarr deployment SHALL be accessible via `zion.home` (root domain) on port 7575 through the Traefik_Ingress
+4. THE Homarr deployment SHALL be accessible via `media.home` (root domain) on port 7575 through the Traefik_Ingress
 5. THE Homarr deployment SHALL include a health check that verifies the web interface is responding on port 7575
 6. THE Homarr manifests SHALL be managed via Kustomize bases and overlays
 7. THE Homarr deployment SHALL be deployed into the Media_Namespace

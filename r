@@ -118,7 +118,7 @@ status:
   sourceType: Kustomize
   summary:
     externalURLs:
-    - http://radarr.zion.home/
+    - http://radarr.media.home/
   sync:
     comparedTo:
       destination:

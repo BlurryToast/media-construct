@@ -60,7 +60,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 7.1, 7.3, 7.5, 18.1, 4.9_
   - [x] 7.2 Create `k8s/qbittorrent/service.yaml` exposing WebUI port 8088
     - _Requirements: 7.1, 7.3_
-  - [x] 7.3 Create `k8s/qbittorrent/ingress.yaml` routing `bittorrent.zion.home` to qbittorrent-svc
+  - [x] 7.3 Create `k8s/qbittorrent/ingress.yaml` routing `bittorrent.media.home` to qbittorrent-svc
     - _Requirements: 7.3_
   - [x] 7.4 Create `k8s/qbittorrent/kustomization.yaml` referencing all manifests
     - _Requirements: 7.4, 4.2_
@@ -70,7 +70,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 10.1, 10.2, 10.5, 18.1, 4.9_
   - [x] 8.2 Create `k8s/sonarr/service.yaml` exposing port 8989
     - _Requirements: 10.1, 10.3_
-  - [x] 8.3 Create `k8s/sonarr/ingress.yaml` routing `sonarr.zion.home` to sonarr-svc
+  - [x] 8.3 Create `k8s/sonarr/ingress.yaml` routing `sonarr.media.home` to sonarr-svc
     - _Requirements: 10.3_
   - [x] 8.4 Create `k8s/sonarr/kustomization.yaml` referencing all manifests
     - _Requirements: 10.4, 4.2_
@@ -80,7 +80,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 11.1, 11.2, 11.5, 18.1, 4.9_
   - [x] 9.2 Create `k8s/radarr/service.yaml` exposing port 7878
     - _Requirements: 11.1, 11.3_
-  - [x] 9.3 Create `k8s/radarr/ingress.yaml` routing `radarr.zion.home` to radarr-svc
+  - [x] 9.3 Create `k8s/radarr/ingress.yaml` routing `radarr.media.home` to radarr-svc
     - _Requirements: 11.3_
   - [x] 9.4 Create `k8s/radarr/kustomization.yaml` referencing all manifests
     - _Requirements: 11.4, 4.2_
@@ -90,7 +90,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 8.1, 8.5, 18.1, 4.9_
   - [x] 10.2 Create `k8s/prowlarr/service.yaml` exposing port 9696
     - _Requirements: 8.1, 8.3_
-  - [x] 10.3 Create `k8s/prowlarr/ingress.yaml` routing `prowlarr.zion.home` to prowlarr-svc
+  - [x] 10.3 Create `k8s/prowlarr/ingress.yaml` routing `prowlarr.media.home` to prowlarr-svc
     - _Requirements: 8.3_
   - [x] 10.4 Create `k8s/prowlarr/kustomization.yaml` referencing all manifests
     - _Requirements: 8.4, 4.2_
@@ -109,7 +109,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
 - [x] 13. Create Jellyfin Kustomize + Helm inflation manifests
   - [x] 13.1 Create `k8s/jellyfin/kustomization.yaml` with helmCharts field for jellyfin chart from `https://jellyfin.github.io/jellyfin-helm`
     - _Requirements: 13.1, 13.9, 4.2, 4.3_
-  - [x] 13.2 Create `k8s/jellyfin/values.yaml` with user 1000:1000, media/config/cache volume mounts via existing PVCs, JELLYFIN_PublishedServerUrl, ingress for jellyfin.zion.home, health checks
+  - [x] 13.2 Create `k8s/jellyfin/values.yaml` with user 1000:1000, media/config/cache volume mounts via existing PVCs, JELLYFIN_PublishedServerUrl, ingress for jellyfin.media.home, health checks
     - _Requirements: 13.2, 13.3, 13.4, 13.5, 13.6, 13.7, 13.8, 18.2_
 
 - [x] 14. Create Jellyseerr manifests
@@ -117,7 +117,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 14.1, 14.2, 14.4, 14.6, 4.9_
   - [x] 14.2 Create `k8s/jellyseerr/service.yaml` exposing port 5055
     - _Requirements: 14.3_
-  - [x] 14.3 Create `k8s/jellyseerr/ingress.yaml` routing `jellyseerr.zion.home` to jellyseerr-svc
+  - [x] 14.3 Create `k8s/jellyseerr/ingress.yaml` routing `jellyseerr.media.home` to jellyseerr-svc
     - _Requirements: 14.3_
   - [x] 14.4 Create `k8s/jellyseerr/kustomization.yaml` referencing all manifests
     - _Requirements: 14.5, 4.2_
@@ -127,7 +127,7 @@ Migrate the Docker Compose media server stack to Kubernetes with GitOps delivery
     - _Requirements: 15.1, 15.2, 15.3, 15.5, 15.7, 17.2, 4.9_
   - [x] 15.2 Create `k8s/homarr/service.yaml` exposing port 7575
     - _Requirements: 15.4_
-  - [x] 15.3 Create `k8s/homarr/ingress.yaml` routing `zion.home` (root domain) to homarr-svc
+  - [x] 15.3 Create `k8s/homarr/ingress.yaml` routing `media.home` (root domain) to homarr-svc
     - _Requirements: 15.4_
   - [x] 15.4 Create `k8s/homarr/kustomization.yaml` referencing all manifests
     - _Requirements: 15.6, 4.2_

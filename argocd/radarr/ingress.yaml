@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: radarr.zion.home
+    - host: radarr.media.home
       http:
         paths:
           - path: /

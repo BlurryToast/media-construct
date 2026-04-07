@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: sonarr.zion.home
+    - host: sonarr.media.home
       http:
         paths:
           - path: /

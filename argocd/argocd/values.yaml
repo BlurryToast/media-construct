@@ -1,5 +1,5 @@
 global:
-  domain: argocd.zion.home
+  domain: argocd.media.home
 
 redis-ha:
   enabled: false

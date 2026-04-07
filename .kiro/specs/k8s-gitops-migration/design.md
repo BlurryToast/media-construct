@@ -2,7 +2,7 @@
 
 ## Overview
 
-This design describes the migration of an existing Docker Compose media server stack to Kubernetes with GitOps delivery via Argo CD. The architecture preserves the existing storage layout (`/data/` hostPath mounts) and service routing (`*.zion.home` via Traefik) while introducing Kubernetes-native patterns.
+This design describes the migration of an existing Docker Compose media server stack to Kubernetes with GitOps delivery via Argo CD. The architecture preserves the existing storage layout (`/data/` hostPath mounts) and service routing (`*.media.home` via Traefik) while introducing Kubernetes-native patterns.
 
 The key architectural decision is the replacement of the Docker Compose `network_mode: service:gluetun` pattern (shared network namespace) with a SOCKS5/HTTP proxy approach. Instead of a "mega-pod" containing all VPN-dependent services, every service is its own independent Deployment. Gluetun runs standalone and exposes SOCKS5 (port 8388) and HTTP proxy (port 8888) endpoints. Services that need VPN routing (qBittorrent, Prowlarr) configure their proxy settings at the application level to point at Gluetun's ClusterIP Service.
 
@@ -71,13 +71,13 @@ graph TB
     APPSET -->|auto-discovers| HOMARR
     APPSET -->|auto-discovers| CONFIGARR
 
-    TRAEFIK -->|bittorrent.zion.home| QBIT
-    TRAEFIK -->|sonarr.zion.home| SONARR
-    TRAEFIK -->|radarr.zion.home| RADARR
-    TRAEFIK -->|prowlarr.zion.home| PROWLARR
-    TRAEFIK -->|jellyfin.zion.home| JELLYFIN
-    TRAEFIK -->|jellyseerr.zion.home| JELLYSEERR
-    TRAEFIK -->|zion.home| HOMARR
+    TRAEFIK -->|bittorrent.media.home| QBIT
+    TRAEFIK -->|sonarr.media.home| SONARR
+    TRAEFIK -->|radarr.media.home| RADARR
+    TRAEFIK -->|prowlarr.media.home| PROWLARR
+    TRAEFIK -->|jellyfin.media.home| JELLYFIN
+    TRAEFIK -->|jellyseerr.media.home| JELLYSEERR
+    TRAEFIK -->|media.home| HOMARR
 
     QBIT -->|SOCKS5 :8388| GLUETUN
     PROWLARR -->|HTTP Proxy :8888| GLUETUN
@@ -279,7 +279,7 @@ Tuned-down resource limits for a small single-repo deployment. Redis disabled, A
 
 ```yaml
 global:
-  domain: argocd.zion.home
+  domain: argocd.media.home
 
 redis-ha:
   enabled: false
@@ -415,7 +415,7 @@ securityContext:
 
 extraEnvVars:
   - name: JELLYFIN_PublishedServerUrl
-    value: "https://jellyfin.zion.home"
+    value: "https://jellyfin.media.home"
   - name: TZ
     value: "Etc/UTC"
 
@@ -441,7 +441,7 @@ ingress:
   enabled: true
   className: traefik
   hosts:
-    - host: jellyfin.zion.home
+    - host: jellyfin.media.home
       paths:
         - path: /
           pathType: Prefix
@@ -660,7 +660,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: bittorrent.zion.home
+    - host: bittorrent.media.home
       http:
         paths:
           - path: /
@@ -762,7 +762,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: sonarr.zion.home
+    - host: sonarr.media.home
       http:
         paths:
           - path: /
@@ -862,7 +862,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: radarr.zion.home
+    - host: radarr.media.home
       http:
         paths:
           - path: /
@@ -954,7 +954,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: prowlarr.zion.home
+    - host: prowlarr.media.home
       http:
         paths:
           - path: /
@@ -1136,7 +1136,7 @@ spec:
             claimName: homarr-config-pvc
 ```
 
-Homarr Ingress routes `zion.home` (root domain) to port 7575.
+Homarr Ingress routes `media.home` (root domain) to port 7575.
 
 ### Configarr CronJob (`k8s/configarr/`)
 
@@ -1384,17 +1384,17 @@ This is Infrastructure as Code — declarative configuration with no custom appl
 - Verify all pods in `media` and `argocd` namespaces reach `Running` state
 - Verify all Argo CD Applications reach `Synced` + `Healthy` status
 - Verify Gluetun health endpoint responds on port 9999
-- Verify each service is reachable via its `*.zion.home` hostname through Traefik
+- Verify each service is reachable via its `*.media.home` hostname through Traefik
 - Verify sync wave 0 resources (PVs, PVCs, ConfigMaps) are created before wave 1 workloads
 
 **3. Integration Tests (post-deployment)**
-- Verify Traefik routes `bittorrent.zion.home` → qBittorrent WebUI (HTTP 200)
-- Verify Traefik routes `sonarr.zion.home` → Sonarr (HTTP 200 on `/ping`)
-- Verify Traefik routes `radarr.zion.home` → Radarr (HTTP 200 on `/ping`)
-- Verify Traefik routes `prowlarr.zion.home` → Prowlarr (HTTP 200 on `/ping`)
-- Verify Traefik routes `jellyfin.zion.home` → Jellyfin (HTTP 200 on `/health`)
-- Verify Traefik routes `jellyseerr.zion.home` → Jellyseerr (HTTP 200)
-- Verify Traefik routes `zion.home` → Homarr (HTTP 200)
+- Verify Traefik routes `bittorrent.media.home` → qBittorrent WebUI (HTTP 200)
+- Verify Traefik routes `sonarr.media.home` → Sonarr (HTTP 200 on `/ping`)
+- Verify Traefik routes `radarr.media.home` → Radarr (HTTP 200 on `/ping`)
+- Verify Traefik routes `prowlarr.media.home` → Prowlarr (HTTP 200 on `/ping`)
+- Verify Traefik routes `jellyfin.media.home` → Jellyfin (HTTP 200 on `/health`)
+- Verify Traefik routes `jellyseerr.media.home` → Jellyseerr (HTTP 200)
+- Verify Traefik routes `media.home` → Homarr (HTTP 200)
 - Verify qBittorrent SOCKS5 proxy is configured to `gluetun-svc.media.svc.cluster.local:8388`
 - Verify Prowlarr HTTP proxy is configured to `gluetun-svc.media.svc.cluster.local:8888`
 - Verify qBittorrent has external IP different from host IP (VPN tunnel active via proxy)

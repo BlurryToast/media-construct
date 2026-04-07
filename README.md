@@ -1,6 +1,6 @@
 # Media Server Stack — Kubernetes GitOps
 
-A Kubernetes-native media server stack managed via GitOps with Argo CD. Migrated from Docker Compose, preserving the existing `/data/` storage layout and `*.zion.home` routing.
+A Kubernetes-native media server stack managed via GitOps with Argo CD. Migrated from Docker Compose, preserving the existing `/data/` storage layout and `*.media.home` routing.
 
 ## Architecture
 
@@ -17,7 +17,7 @@ VPN routing uses an application-level proxy pattern instead of shared network na
                          ┌──────────────▼──────────────────┐
                          │         media namespace          │
                          │                                  │
-  *.zion.home ──────────►│  Traefik (Ingress Controller)    │
+  *.media.home ──────────►│  Traefik (Ingress Controller)    │
                          │       │                          │
        ┌─────────────────┼───────┼──────────────────────────┤
        │  VPN-routed     │       │    Direct cluster net    │
@@ -40,14 +40,14 @@ VPN routing uses an application-level proxy pattern instead of shared network na
 |---|---|---|---|---|
 | Traefik | Helm (Kustomize inflation) | — | 80/443 | No |
 | Gluetun | Kustomize | Internal only | 8388/8888/9999 | WireGuard |
-| qBittorrent | Kustomize | `bittorrent.zion.home` | 8088 | SOCKS5 → Gluetun |
-| Sonarr | Kustomize | `sonarr.zion.home` | 8989 | No |
-| Radarr | Kustomize | `radarr.zion.home` | 7878 | No |
-| Prowlarr | Kustomize | `prowlarr.zion.home` | 9696 | HTTP → Gluetun |
+| qBittorrent | Kustomize | `bittorrent.media.home` | 8088 | SOCKS5 → Gluetun |
+| Sonarr | Kustomize | `sonarr.media.home` | 8989 | No |
+| Radarr | Kustomize | `radarr.media.home` | 7878 | No |
+| Prowlarr | Kustomize | `prowlarr.media.home` | 9696 | HTTP → Gluetun |
 | FlareSolverr | Kustomize | Internal only | 8191 | No |
-| Jellyfin | Helm (Kustomize inflation) | `jellyfin.zion.home` | 8096 | No |
-| Jellyseerr | Kustomize | `jellyseerr.zion.home` | 5055 | No |
-| Homarr | Kustomize | `zion.home` | 7575 | No |
+| Jellyfin | Helm (Kustomize inflation) | `jellyfin.media.home` | 8096 | No |
+| Jellyseerr | Kustomize | `jellyseerr.media.home` | 5055 | No |
+| Homarr | Kustomize | `media.home` | 7575 | No |
 | Configarr | Kustomize (CronJob) | — | — | No |
 
 ## Repository Structure
