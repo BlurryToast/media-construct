@@ -4,7 +4,7 @@ metadata:
   name: jellyseerr-ingress
   namespace: media
   annotations:
-    argocd.argoproj.io/health-check: "skip"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   ingressClassName: traefik
   rules:

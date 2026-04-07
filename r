@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: "2026-04-06T08:26:14Z"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
-  generation: 78
+  generation: 80
   name: radarr
   namespace: argocd
   ownerReferences:
@@ -14,7 +14,7 @@ metadata:
     kind: ApplicationSet
     name: cluster-apps
     uid: f3738b7f-ca79-4214-ba47-7ab821aec264
-  resourceVersion: "9485"
+  resourceVersion: "9782"
   uid: 340eb8f5-a576-4776-a381-eb11be809bd1
 operation:
   initiatedBy:
@@ -93,7 +93,7 @@ status:
         path: argocd/radarr
         repoURL: https://github.com/BlurryToast/media-construct.git
         targetRevision: HEAD
-  reconciledAt: "2026-04-06T11:56:09Z"
+  reconciledAt: "2026-04-06T12:02:23Z"
   resourceHealthSource: appTree
   resources:
   - kind: Service
@@ -112,7 +112,7 @@ status:
     kind: Ingress
     name: radarr-ingress
     namespace: media
-    status: Synced
+    status: OutOfSync
     version: v1
   sourceHydrator: {}
   sourceType: Kustomize
@@ -128,5 +128,5 @@ status:
         path: argocd/radarr
         repoURL: https://github.com/BlurryToast/media-construct.git
         targetRevision: HEAD
-    revision: 6342d89e6bc526800cb4be2845437e756440eb96
+    revision: cab890f5735561b3a4c174ab1971c8b01cd3b43b
     status: OutOfSync
