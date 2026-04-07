@@ -8,6 +8,7 @@ ingressClass:
 providers:
   kubernetesIngress:
     enabled: true
+    nativeLBByDefault: true
   kubernetesCRD:
     enabled: false
 
