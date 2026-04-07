@@ -9,7 +9,7 @@ providers:
   kubernetesIngress:
     enabled: true
   kubernetesCRD:
-    enabled: true
+    enabled: false
 
 ports:
   web:
