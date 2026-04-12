@@ -38,11 +38,3 @@ ingress:
         - path: /
           pathType: Prefix
 
-livenessProbe:
-  httpGet:
-    path: /health
-    port: http
-readinessProbe:
-  httpGet:
-    path: /health
-    port: http
