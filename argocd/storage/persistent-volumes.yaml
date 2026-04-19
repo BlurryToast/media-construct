@@ -338,36 +338,4 @@ spec:
       storage: 10Gi
   storageClassName: ""
   volumeName: jellyseerr-config-pv
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: homarr-config-pv
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-spec:
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: ""
-  hostPath:
-    path: /data/appdata/homarr
-    type: Directory
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: homarr-config-pvc
-  namespace: media
-  annotations:
-    argocd.argoproj.io/sync-wave: "0"
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-  storageClassName: ""
-  volumeName: homarr-config-pv
+
