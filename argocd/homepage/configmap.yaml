@@ -32,41 +32,85 @@ data:
             href: http://jellyfin.media.home
             description: Media Server
             siteMonitor: http://jellyfin.media.svc.cluster.local:8096
+            widget:
+              type: jellyfin
+              url: http://jellyfin.media.svc.cluster.local:8096
+              key: {{HOMEPAGE_VAR_JELLYFIN_API_KEY}}
+              version: 2
+              enableBlocks: true
+              enableNowPlaying: true
         - Jellyseerr:
             icon: jellyseerr.png
             href: http://jellyseerr.media.home
             description: Media Requests
             siteMonitor: http://jellyseerr.media.svc.cluster.local:5055
+            widget:
+              type: seerr
+              url: http://jellyseerr.media.svc.cluster.local:5055
+              key: {{HOMEPAGE_VAR_JELLYSEERR_API_KEY}}
     - Downloads:
         - Sonarr:
             icon: sonarr.png
             href: http://sonarr.media.home
             description: TV Shows
             siteMonitor: http://sonarr.media.svc.cluster.local:8989
+            widget:
+              type: sonarr
+              url: http://sonarr.media.svc.cluster.local:8989
+              key: {{HOMEPAGE_VAR_SONARR_API_KEY}}
+              enableQueue: true
         - Radarr:
             icon: radarr.png
             href: http://radarr.media.home
             description: Movies
             siteMonitor: http://radarr.media.svc.cluster.local:7878
+            widget:
+              type: radarr
+              url: http://radarr.media.svc.cluster.local:7878
+              key: {{HOMEPAGE_VAR_RADARR_API_KEY}}
+              enableQueue: true
         - Prowlarr:
             icon: prowlarr.png
             href: http://prowlarr.media.home
             description: Indexer Manager
             siteMonitor: http://prowlarr.media.svc.cluster.local:9696
+            widget:
+              type: prowlarr
+              url: http://prowlarr.media.svc.cluster.local:9696
+              key: {{HOMEPAGE_VAR_PROWLARR_API_KEY}}
         - qBittorrent:
             icon: qbittorrent.png
             href: http://bittorrent.media.home
             description: Torrent Client
             siteMonitor: http://qbittorrent.media.svc.cluster.local:8080
+            widget:
+              type: qbittorrent
+              url: http://qbittorrent.media.svc.cluster.local:8080
+              username: {{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}
+              password: {{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}
     - Management:
         - ArgoCD:
             icon: argocd.png
             href: http://argocd.media.home
             description: GitOps
+            widget:
+              type: argocd
+              url: http://argocd-server.argocd.svc.cluster.local
+              key: {{HOMEPAGE_VAR_ARGOCD_API_KEY}}
         - Traefik:
             icon: traefik.png
             href: http://traefik.media.home
             description: Reverse Proxy
+            widget:
+              type: traefik
+              url: http://traefik.media.svc.cluster.local:9000
+        - Gluetun:
+            icon: gluetun.png
+            href: ""
+            description: VPN
+            widget:
+              type: gluetun
+              url: http://gluetun.media.svc.cluster.local:8000
   widgets.yaml: |
     - kubernetes:
         cluster:

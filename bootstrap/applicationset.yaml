@@ -7,7 +7,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/BlurryToast/media-construct.git
-        revision: HEAD
+        revision: feature/implment-homepage
         directories:
           - path: argocd/*
   template:
@@ -17,7 +17,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/BlurryToast/media-construct.git
-        targetRevision: HEAD
+        targetRevision: feature/implment-homepage
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
