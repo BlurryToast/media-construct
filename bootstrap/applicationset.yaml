@@ -7,7 +7,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/BlurryToast/media-construct.git
-        revision: HEAD
+        revision: main
         directories:
           - path: argocd/*
   template:
@@ -17,11 +17,17 @@ spec:
       project: default
       source:
         repoURL: https://github.com/BlurryToast/media-construct.git
-        targetRevision: HEAD
+        targetRevision: main
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: media
+  templatePatch: |
+    {{- if eq .path.basename "traefik" }}
+    spec:
+      destination:
+        namespace: ingress
+    {{- end }}
       syncPolicy:
         automated:
           prune: true
