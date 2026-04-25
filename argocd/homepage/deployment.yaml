@@ -37,9 +37,6 @@ spec:
             runAsGroup: 1000
             seccompProfile:
               type: RuntimeDefault
-          envFrom:
-            - secretRef:
-                name: homepage-api-keys
           env:
             - name: MY_POD_IP
               valueFrom:
@@ -47,6 +44,46 @@ spec:
                   fieldPath: status.podIP
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: "$(MY_POD_IP):3000,media.home"
+            - name: HOMEPAGE_VAR_SONARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sonarr-api-key
+                  key: api-key
+            - name: HOMEPAGE_VAR_RADARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: radarr-api-key
+                  key: api-key
+            - name: HOMEPAGE_VAR_PROWLARR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: prowlarr-api-key
+                  key: api-key
+            - name: HOMEPAGE_VAR_JELLYFIN_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jellyfin-api-key
+                  key: api-key
+            - name: HOMEPAGE_VAR_JELLYSEERR_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jellyseerr-api-key
+                  key: api-key
+            - name: HOMEPAGE_VAR_QBITTORRENT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: username
+            - name: HOMEPAGE_VAR_QBITTORRENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-credentials
+                  key: password
+            - name: HOMEPAGE_VAR_ARGOCD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: argocd-api-key
+                  key: api-key
           ports:
             - name: http
               containerPort: 3000

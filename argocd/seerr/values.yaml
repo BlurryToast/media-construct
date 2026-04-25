@@ -1,0 +1,16 @@
+extraEnv:
+  - name: TZ
+    value: "Etc/UTC"
+
+config:
+  persistence:
+    existingClaim: jellyseerr-config-pvc
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hosts:
+    - host: jellyseerr.media.home
+      paths:
+        - path: /
+          pathType: Prefix

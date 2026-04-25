@@ -14,7 +14,10 @@ redisSecretInit:
   enabled: true
 
 server:
-  replicas: 0
+  replicas: 1
+  ingress:
+    enabled: true
+    ingressClassName: traefik
 
 repoServer:
   resources:
@@ -46,4 +49,5 @@ applicationSet:
 
 configs:
   params:
+    server.insecure: true  # Disable TLS on the server pod; Traefik handles routing
     kustomize.buildOptions: --enable-helm  # Allow Kustomize Helm chart inflation
