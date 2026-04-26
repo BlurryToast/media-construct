@@ -18,6 +18,8 @@ persistence:
   cache:
     enabled: true
     existingClaim: jellyfin-cache-pvc
+  media:
+    enabled: false
 
 extraVolumes:
   - name: media
