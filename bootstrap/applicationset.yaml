@@ -4,6 +4,8 @@ metadata:
   name: cluster-apps
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
         repoURL: https://github.com/BlurryToast/media-construct.git
@@ -12,25 +14,19 @@ spec:
           - path: argocd/*
   template:
     metadata:
-      name: "{{path.basename}}"
+      name: "{{ .path.basename }}"
     spec:
       project: default
       source:
         repoURL: https://github.com/BlurryToast/media-construct.git
         targetRevision: main
-        path: "{{path}}"
+        path: "{{ .path.path }}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: media
-  templatePatch: |
-    {{- if eq .path.basename "traefik" }}
-    spec:
-      destination:
-        namespace: ingress
-    {{- end }}
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
           - CreateNamespace=false
+          - ServerSideApply=true
