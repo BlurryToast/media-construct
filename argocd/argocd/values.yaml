@@ -22,30 +22,30 @@ server:
 repoServer:
   resources:
     requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 200m
-      memory: 128Mi
-
-controller:
-  resources:
-    requests:
       cpu: 100m
       memory: 128Mi
     limits:
       cpu: 500m
+      memory: 512Mi
+
+controller:
+  resources:
+    requests:
+      cpu: 250m
       memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 512Mi
 
 applicationSet:
   enabled: true
   resources:
     requests:
-      cpu: 25m
-      memory: 32Mi
-    limits:
-      cpu: 100m
+      cpu: 50m
       memory: 64Mi
+    limits:
+      cpu: 250m
+      memory: 128Mi
 
 configs:
   params:
