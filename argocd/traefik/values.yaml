@@ -17,6 +17,7 @@ ports:
     port: 8000
     exposedPort: 80
     protocol: TCP
+    redirectTo: null
   websecure:
     port: 8443
     exposedPort: 443

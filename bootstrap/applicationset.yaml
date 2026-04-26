@@ -10,6 +10,18 @@ spec:
         revision: main
         directories:
           - path: argocd/*
+          - path: argocd/traefik
+            exclude: true
+        values:
+          destNamespace: media
+    - list:
+        elements:
+          - path: argocd/traefik
+            path.basename: traefik
+            values.destNamespace: ingress
+          - path: argocd/argocd
+            path.basename: argocd
+            values.destNamespace: argocd
   template:
     metadata:
       name: "{{path.basename}}"
@@ -21,13 +33,7 @@ spec:
         path: "{{path}}"
       destination:
         server: https://kubernetes.default.svc
-        namespace: media
-  templatePatch: |
-    {{- if eq .path.basename "traefik" }}
-    spec:
-      destination:
-        namespace: ingress
-    {{- end }}
+        namespace: "{{values.destNamespace}}"
       syncPolicy:
         automated:
           prune: true
