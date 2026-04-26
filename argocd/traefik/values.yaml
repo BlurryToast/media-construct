@@ -17,10 +17,11 @@ ports:
     port: 8000
     exposedPort: 80
     protocol: TCP
+    redirectTo: null
+    asDefault: true
   websecure:
-    port: 8443
-    exposedPort: 443
-    protocol: TCP
+    expose:
+      default: false
 
 service:
   type: LoadBalancer
